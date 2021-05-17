@@ -4,19 +4,18 @@ class Calbmi():
         self.weight = weight
 
     def bmi(self):
-        return self.weight / (self.tall * self.tall)
+        return self.weight / self.tall ** 2
 
     def warning(self):
         if (self.bmi() < 14.33):
-            print("low level")
+            return "low level"
         elif (self.bmi() < 18.24):
-            print("normal level")
+            return "normal level"
         else:
-            print("high level")
+            return "high level"
 
 if __name__ == '__main__':
     a = Calbmi()
     a.setdata(1.7, 70)
     print(a.bmi())
     print(a.warning())
-
