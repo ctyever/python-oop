@@ -7,23 +7,23 @@ class Calbmi(object):
         self.weight = weight
 
     def get_bmi(self):
-        return self.weight / self.tall ** 2 * 10000
+        bmi = self.weight / self.tall ** 2 * 10000
 
-    def warning(self):
-        if self.get_bmi() < 18.5:
-            return "low level"
-        elif self.get_bmi() < 23:
-            return "normal level"
-        elif self.get_bmi() < 25:
-            return "high level"
+        if bmi < 18.5:
+            bb =  "low level"
+        elif bmi < 23:
+            bb = "normal level"
+        elif bmi < 25:
+            bb = "high level"
         else:
-            return "bboom"
+            bb = "bboom"
+
+        return f'나의 bmi는 {int(bmi)}, {bb}'
 
     @staticmethod
     def main():
         bmi = Calbmi(int(input("나의 키 : ")), int(input("나의 몸무게 : ")))
-        print(f'나의 bmi는 {math.floor(bmi.get_bmi())} 입니다. 나의 비만도는 {bmi.warning()} 입니다')
-
+        print(bmi.get_bmi())
 
 
 Calbmi.main()
