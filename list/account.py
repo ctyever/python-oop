@@ -15,7 +15,7 @@ class Account(object):
     def main():
         ls = []
         while 1:
-            menu = input("1. 정보 입력\n2.출력\n0.프로그램 종료\n3.삭제\n4.수정")
+            menu = input("0.프로그램 종료\n1. 정보 입력\n2.출력\n3.삭제\n4.수정")
 
             if menu == '0':
                 break
@@ -25,10 +25,18 @@ class Account(object):
                 for i in ls:
                     print(i.get_info())
             elif menu == '3':
-                del_name = input("삭제할 이름 : ")
+                del_info = input("삭제할 이름 : ")
                 for i, j in enumerate(ls):
-                    if j.name == del_name:
+                    if j.name == del_info:
                         del ls[i]
+            elif menu == '4':
+                edit_name = input("수정할 이름 : ")
+                edit_info = Account(edit_name, input("잔액"))
+                for i, j in enumerate(ls):
+                    if j.name == edit_name:
+                        del ls[i]
+                        ls.append(edit_info)
+
 
             else:
                 print("잘못된 주문입니다")
