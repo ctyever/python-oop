@@ -2,46 +2,82 @@ import random
 
 class Account(object):
 
-    def __init__(self, name, money):
-        self.bankname = "sc은행"
+    def __init__(self, accountnum, name, money):
+        self.BANK_NAME = "SC은행"
         self.name = name
         self.money = money
-        self.accontnum = random.random() * 1000
+        self.accountnum = accountnum
 
-    def get_info(self):
-        return f'이름 : {self.name} 잔액 : {self.money} 은행 : {self.bankname} 계좌 번호 : {self.accontnum}'
+    '''
+       계좌번호는 3자리-2자리-6자리 형태로 랜덤하게 생성됩니다.
+    '''
+    
+    def to_string(self):
+        return f'이름 : {self.name} 잔액 : {self.money} 은행 : {self.BANK_NAME} 계좌 번호 : {self.accountnum}'
 
+    @staticmethod
+    def create_accountnum():
+        ls = [str(random.randint(0, 9)) for i in range(3)]
+        ls.append(('-'))
+        for i in range(2):
+            ls.append(str(random.randint(0, 9)))
+        ls.append(('-'))
+        for i in range(6):
+            ls.append(str(random.randint(0, 9)))
+        return "".join(ls)
+
+    @staticmethod
+    def del_account(ls, account_number):
+        for i, j in enumerate(ls):
+            if j.accountnum == account_number:
+                del ls[i]
+
+    @staticmethod
+    def replace(ls, account_number, money, menu):
+        for i, j in enumerate(ls):
+            if j.accountnum == account_number:
+                Account.del_account(ls, account_number)
+                if menu == '3':
+                    replace = Account(j.accountnum,
+                                      j.name,
+                                      int(j.money) + int(money))
+                    ls.append(replace)
+                elif menu == '4':
+                    replace = Account(j.accountnum,
+                                      j.name,
+                                      int(j.money) - int(money))
+                    ls.append(replace)
     @staticmethod
     def main():
         ls = []
         while 1:
-            menu = input("0.프로그램 종료\n1. 정보 입력\n2.출력\n3.삭제\n4.수정")
+            menu = input("0.종료 1.계좌계설 2.계좌목록 3.입금 4.출금 5.계좌탈퇴")
 
             if menu == '0':
                 break
             elif menu == '1':
-                ls.append(Account(input("이름"), input("잔액")))
+                ls.append(Account(Account.create_accountnum(), input("이름"), input("잔액")))
             elif menu == '2':
                 for i in ls:
-                    print(i.get_info())
+                    print(i.to_string())
             elif menu == '3':
-                del_info = input("삭제할 이름 : ")
-                for i, j in enumerate(ls):
-                    if j.name == del_info:
-                        del ls[i]
+                account_number = input("계좌 번호 : ")
+                money = input('입금액 입력 바랍니다')
+                Account.replace(ls, account_number,money, menu)
+
             elif menu == '4':
-                edit_name = input("수정할 이름 : ")
-                edit_info = Account(edit_name, input("잔액"))
-                for i, j in enumerate(ls):
-                    if j.name == edit_name:
-                        del ls[i]
-                        ls.append(edit_info)
-
-
+                account_number = input("계좌 번호 : ")
+                money = input('출금액 입력 바랍니다')
+                Account.replace(ls, account_number, money, menu)
+            elif menu == '5':
+                Account.del_account(ls, input("계좌 번호 : "))
             else:
                 print("잘못된 주문입니다")
+                continue
 
 Account.main()
+
+
 
 
 
